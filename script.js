@@ -1,34 +1,55 @@
 
-const chatBox = document.getElementById("chatBox");
-const chatForm = document.getElementById("chatForm");
-const userInput = document.getElementById("userInput");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+  const input = document.querySelector("input");
+  const chatContainer = document.querySelector(".chat-container");
 
-function addMessage(sender, text) {
-  const messageDiv = document.createElement("div");
-  messageDiv.className = `message ${sender}`;
-  messageDiv.textContent = text;
-  chatBox.appendChild(messageDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+  const apiUrl = "https://gemini-api-5k0h.onrender.com/gemini/chat";
 
-chatForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const input = userInput.value;
-  if (!input) return;
-  addMessage("user", input);
-  userInput.value = "";
-
-  try {
-    const response = await fetch("https://gemini-api-5k0h.onrender.com/gemini/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input })
-    });
-
-    const data = await response.json();
-    const reply = data.content || data.message || data.result || "[Gagal membaca respon dari AI]";
-    addMessage("bot", reply);
-  } catch (err) {
-    addMessage("bot", "[Terjadi kesalahan saat mengambil respon]");
+  function addMessage(role, content) {
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", role);
+    messageElement.textContent = content;
+    chatContainer.appendChild(messageElement);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
   }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    addMessage("user", userMessage);
+    input.value = "";
+    addMessage("bot", "Sedang mengetik...");
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const result = await response.json();
+
+      const botMessages = document.querySelectorAll(".bot");
+      if (botMessages.length > 0) {
+        botMessages[botMessages.length - 1].remove();
+      }
+
+      if (result.success && result.content) {
+        addMessage("bot", result.content);
+      } else {
+        addMessage("bot", "[Gagal membaca respon dari AI]");
+      }
+    } catch (error) {
+      const botMessages = document.querySelectorAll(".bot");
+      if (botMessages.length > 0) {
+        botMessages[botMessages.length - 1].remove();
+      }
+      addMessage("bot", "[Terjadi kesalahan jaringan atau server down]");
+    }
+  });
 });
