@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Website Resmi ShanModzZ Ai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .chat-box {
+      width: 100%;
+      max-width: 480px;
+      background-color: #1e293b;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .message {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    .message.user {
+      align-self: flex-end;
+      background-color: #3b82f6;
+      color: white;
+    }
+    .message.bot {
+      align-self: flex-start;
+      background-color: #334155;
+      color: white;
+    }
+    form {
+      margin-top: 1rem;
+      display: flex;
+      width: 100%;
+      max-width: 480px;
+    }
+    input {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      border: none;
+      outline: none;
+    }
+    button {
+      padding: 0 1.25rem;
+      background-color: #3b82f6;
+      border: none;
+      color: white;
+      border-radius: 0 0.5rem 0.5rem 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Website Resmi ShanModzZ Ai</h1>
+  <p>Apa yang ingin saya bantu?</p>
+  <div class="chat-box" id="chatBox"></div>
+  <form id="chatForm">
+    <input type="text" id="userInput" placeholder="Tanyakan sesuatu..." required />
+    <button type="submit">Kirim</button>
+  </form>
+  <script src="script.js"></script>
+</body>
+</html>
